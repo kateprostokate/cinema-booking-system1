@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 </head>
-<body>
+<body class="page page--ticket">
   <!-- Навигация -->
   <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
@@ -17,13 +17,15 @@
   </nav>
 
   <!-- Контент -->
-  <div class="container mt-4">
-    <h1 class="mb-4 text-center">Ваш билет</h1>
-    
-    <div id="ticketsContainer" class="row justify-content-center">
-      <!-- Билеты будут отображены здесь -->
+  <main class="page__content">
+    <div class="container">
+      <h1 class="page__title text-center">Ваш билет</h1>
+      
+      <div id="ticketsContainer" class="tickets row justify-content-center">
+        <!-- Билеты будут отображены здесь -->
+      </div>
     </div>
-  </div>
+  </main>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -44,34 +46,24 @@
       let html = '';
 
       tickets.forEach(ticket => {
-        const ticketInfo = `
-Фильм: ${ticket.ticket_filmname}
-Зал: ${ticket.ticket_hallname}
-Дата: ${ticket.ticket_date}
-Время: ${ticket.ticket_time}
-Ряд: ${ticket.ticket_row}, Место: ${ticket.ticket_place}
-Стоимость: ${ticket.ticket_price} руб.
-
-Билет действителен строго на свой сеанс
-Билет №${ticket.id}
-        `.trim();
-
         html += `
           <div class="col-md-6 mb-4">
-            <div class="card">
-              <div class="card-body text-center">
-                <h5 class="card-title">${ticket.ticket_filmname}</h5>
-                <div class="mb-3">
+            <div class="ticket">
+              <div class="ticket__header">
+                <h5 class="ticket__title">${ticket.ticket_filmname}</h5>
+              </div>
+              <div class="ticket__body">
+                <div class="ticket__qr">
                   <canvas id="qr-${ticket.id}"></canvas>
                 </div>
-                <div class="ticket-info text-start">
+                <div class="ticket__info">
                   <p><strong>Зал:</strong> ${ticket.ticket_hallname}</p>
                   <p><strong>Дата:</strong> ${ticket.ticket_date}</p>
                   <p><strong>Время:</strong> ${ticket.ticket_time}</p>
                   <p><strong>Ряд:</strong> ${ticket.ticket_row}, <strong>Место:</strong> ${ticket.ticket_place}</p>
                   <p><strong>Стоимость:</strong> ${ticket.ticket_price} руб.</p>
                 </div>
-                <p class="text-danger mt-3"><strong>Билет действителен строго на свой сеанс</strong></p>
+                <p class="ticket__warning">Билет действителен строго на свой сеанс</p>
               </div>
             </div>
           </div>
@@ -85,17 +77,7 @@
         const canvasId = `qr-${ticket.id}`;
         const canvas = document.getElementById(canvasId);
         if (canvas) {
-          const ticketInfo = `
-Фильм: ${ticket.ticket_filmname}
-Зал: ${ticket.ticket_hallname}
-Дата: ${ticket.ticket_date}
-Время: ${ticket.ticket_time}
-Ряд: ${ticket.ticket_row}, Место: ${ticket.ticket_place}
-Стоимость: ${ticket.ticket_price} руб.
-
-Билет действителен строго на свой сеанс
-Билет №${ticket.id}
-          `.trim();
+          const ticketInfo = `Фильм: ${ticket.ticket_filmname}\nЗал: ${ticket.ticket_hallname}\nДата: ${ticket.ticket_date}\nВремя: ${ticket.ticket_time}\nРяд: ${ticket.ticket_row}, Место: ${ticket.ticket_place}\nСтоимость: ${ticket.ticket_price} руб.\n\nБилет действителен строго на свой сеанс\nБилет №${ticket.id}`;
 
           QRCode.toCanvas(canvas, ticketInfo, {
             width: 200,

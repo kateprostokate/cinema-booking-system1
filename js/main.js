@@ -117,13 +117,11 @@ function renderSchedule() {
 
       html += `
         <div class="schedule__hall card mb-4">
-          <div class="card-header">
-            <h4>${hall.hall_name}</h4>
+          <div class="schedule__hall-header">
+            <h4 class="schedule__hall-title">${hall.hall_name}</h4>
           </div>
-          <div class="card-body">
-            <div class="schedule__seances">
-              ${seancesHtml}
-            </div>
+          <div class="schedule__seances">
+            ${seancesHtml}
           </div>
         </div>
       `;

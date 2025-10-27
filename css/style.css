@@ -1,51 +1,156 @@
-/* Общие стили */
+/* ===========================================
+   ОБЩИЕ СТИЛИ
+   =========================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   background-color: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
   padding-bottom: 2rem;
 }
 
 /* Навигация */
 .navbar {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 1rem 2rem;
 }
 
-/* Расписание */
-.schedule__hall {
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Контейнер страницы */
+.page__content {
+  padding: 2rem 0;
+}
+
+.page__title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+/* Карточки */
+.card {
+  border: none;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+
+/* ===========================================
+   РАСПИСАНИЕ (INDEX)
+   =========================================== */
+
+.schedule {
+  margin-top: 2rem;
+}
+
+.schedule__hall {
+  margin-bottom: 2rem;
+}
+
+.schedule__hall-header {
+  background-color: #343a40;
+  color: white;
+  padding: 1rem;
+  border-radius: 8px 8px 0 0;
+}
+
+.schedule__hall-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
 }
 
 .schedule__seances {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 0 0 8px 8px;
+}
+
+.schedule__seance {
+  margin-bottom: 0.5rem;
 }
 
 .schedule__seance--past {
   opacity: 0.5;
 }
 
+.schedule__seance--past .btn {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* ===========================================
+   ВЫБОР МЕСТА (CLIENT)
+   =========================================== */
+
+/* Информация о сеансе */
+.session-info {
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.session-info__title {
+  font-size: 1.25rem;
+  margin: 0;
+}
+
 /* Схема зала */
+.hall {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+.hall__title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.hall__scheme {
+  margin: 2rem 0;
+}
+
+/* Экран */
 .hall-screen {
   text-align: center;
   background: linear-gradient(to top, #333, #666);
   color: white;
-  padding: 1rem;
+  padding: 1rem 2rem;
   border-radius: 10px;
   font-weight: bold;
   margin-bottom: 2rem;
+  font-size: 1.25rem;
 }
 
+/* Схема мест */
 .hall-seats {
   max-width: 100%;
   overflow-x: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .hall-row {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 0.5rem;
 }
 
 .row-number {
@@ -53,6 +158,7 @@ body {
   text-align: center;
   font-weight: bold;
   color: #666;
+  font-size: 0.875rem;
 }
 
 /* Места */
@@ -69,12 +175,14 @@ body {
   font-weight: bold;
   transition: all 0.2s;
   margin-right: 4px;
+  user-select: none;
 }
 
 .seat:hover:not(.seat--taken):not(.seat--disabled) {
   transform: scale(1.1);
 }
 
+/* Состояния мест */
 .seat--available {
   background-color: #e3f2fd;
   border-color: #2196F3;
@@ -96,9 +204,9 @@ body {
 }
 
 .seat--selected {
-  background-color: #4CAF50;
-  border-color: #388E3C;
-  color: white;
+  background-color: #4CAF50 !important;
+  border-color: #388E3C !important;
+  color: white !important;
 }
 
 .seat--taken {
@@ -115,76 +223,347 @@ body {
   cursor: not-allowed;
 }
 
-/* Легенда мест */
-.seat-legend {
+/* Легенда */
+.hall__legend {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legend__icon {
   width: 30px;
   height: 30px;
   border: 2px solid #ccc;
   border-radius: 6px;
-  margin-right: 8px;
 }
 
-.seat-legend__available {
+.legend__icon--available {
   background-color: #e3f2fd;
   border-color: #2196F3;
 }
 
-.seat-legend__selected {
+.legend__icon--selected {
   background-color: #4CAF50;
   border-color: #388E3C;
 }
 
-.seat-legend__taken {
+.legend__icon--taken {
   background-color: #e0e0e0;
   border-color: #9e9e9e;
 }
 
-.seat-legend__disabled {
+.legend__icon--disabled {
   background-color: #fafafa;
   border-color: #e0e0e0;
 }
 
-.seat-legend__vip {
+.legend__icon--vip {
   background-color: #fff9c4;
   border-color: #fbc02d;
 }
 
-/* Билет */
-.ticket-info {
-  background-color: #f9f9f9;
-  padding: 1rem;
+.legend__text {
+  font-size: 0.875rem;
+}
+
+/* Выбор мест и бронирование */
+.booking {
+  background-color: #fff;
+  padding: 1.5rem;
   border-radius: 8px;
-  margin-top: 1rem;
 }
 
-.ticket-info p {
-  margin-bottom: 0.5rem;
+.booking__title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
 }
 
-/* Адаптивность */
+.booking__selected {
+  margin-bottom: 1rem;
+}
+
+.booking__total {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.booking__button {
+  width: 100%;
+}
+
+/* ===========================================
+   АДАПТИВНОСТЬ: TABLET (768px)
+   =========================================== */
+
 @media (max-width: 768px) {
+  .navbar {
+    padding: 0.75rem 1rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.25rem;
+  }
+
+  .page__content {
+    padding: 1rem 0;
+  }
+
+  .page__title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .hall {
+    padding: 1.5rem;
+  }
+
+  .hall-screen {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+
   .seat {
     width: 32px;
     height: 32px;
     font-size: 10px;
+    margin-right: 3px;
   }
-  
-  .hall-screen {
-    font-size: 14px;
-    padding: 0.75rem;
+
+  .row-number {
+    min-width: 24px;
+    font-size: 12px;
+  }
+
+  .hall__legend {
+    gap: 1rem;
+  }
+
+  .legend__icon {
+    width: 24px;
+    height: 24px;
   }
 }
 
-@media (max-width: 576px) {
+/* ===========================================
+   АДАПТИВНОСТЬ: MOBILE (390px)
+   =========================================== */
+
+@media (max-width: 390px) {
+  .navbar {
+    padding: 0.5rem;
+  }
+
+  .navbar-brand {
+    font-size: 1rem;
+  }
+
+  .navbar .btn {
+    font-size: 0.875rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .page__content {
+    padding: 0.5rem;
+  }
+
+  .page__title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .schedule__hall-title {
+    font-size: 1.25rem;
+  }
+
+  .schedule__seances {
+    padding: 1rem;
+  }
+
+  .schedule__seances .btn {
+    font-size: 0.875rem;
+    padding: 0.5rem;
+  }
+
+  .hall {
+    padding: 1rem;
+  }
+
+  .hall-screen {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+  }
+
   .seat {
     width: 28px;
     height: 28px;
     font-size: 9px;
     margin-right: 2px;
   }
-  
+
   .row-number {
-    min-width: 24px;
-    font-size: 12px;
+    min-width: 20px;
+    font-size: 10px;
+  }
+
+  .hall__legend {
+    gap: 0.75rem;
+    padding: 0.75rem;
+  }
+
+  .legend__icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .legend__text {
+    font-size: 0.75rem;
+  }
+
+  .booking__button {
+    font-size: 1rem;
+    padding: 0.75rem;
+  }
+}
+
+/* ===========================================
+   БИЛЕТ (TICKET)
+   =========================================== */
+
+.tickets {
+  margin-top: 2rem;
+}
+
+.ticket {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.ticket__header {
+  background-color: #343a40;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+.ticket__title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.ticket__body {
+  padding: 2rem;
+  text-align: center;
+}
+
+.ticket__qr {
+  margin-bottom: 1.5rem;
+}
+
+.ticket__info {
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.ticket__info p {
+  margin-bottom: 0.5rem;
+}
+
+.ticket__warning {
+  color: #dc3545;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* ===========================================
+   ДОПОЛНИТЕЛЬНЫЕ СТИЛИ
+   =========================================== */
+
+/* Скрытые классы для состояний */
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* Анимации загрузки */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spinner-border {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  vertical-align: text-bottom;
+  border: 0.25em solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+/* ===========================================
+   АДАПТИВНОСТЬ ДЛЯ БИЛЕТОВ
+   =========================================== */
+
+@media (max-width: 768px) {
+  .ticket__header {
+    padding: 0.75rem;
+  }
+
+  .ticket__title {
+    font-size: 1.25rem;
+  }
+
+  .ticket__body {
+    padding: 1.5rem;
+  }
+
+  .ticket__qr {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .ticket__header {
+    padding: 0.5rem;
+  }
+
+  .ticket__title {
+    font-size: 1rem;
+  }
+
+  .ticket__body {
+    padding: 1rem;
+  }
+
+  .ticket__info {
+    padding: 0.75rem;
+  }
+
+  .ticket__info p {
+    font-size: 0.875rem;
+  }
+
+  .ticket__warning {
+    font-size: 0.875rem;
   }
 }
