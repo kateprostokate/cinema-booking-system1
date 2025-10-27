@@ -9,11 +9,16 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  background-color: #f5f5f5;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-image: url('../img/popcorn-bg.svg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   color: #333;
   line-height: 1.6;
   padding-bottom: 2rem;
+  min-height: 100vh;
 }
 
 /* Навигация */
@@ -110,15 +115,20 @@ body {
 
 /* Схема зала */
 .hall {
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.95);
   padding: 2rem;
   border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .hall__title {
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 900;
+  font-size: 34px;
+  line-height: 39px;
+  text-transform: uppercase;
   text-align: center;
+  margin-bottom: 1rem;
 }
 
 .hall__scheme {
@@ -128,13 +138,35 @@ body {
 /* Экран */
 .hall-screen {
   text-align: center;
-  background: linear-gradient(to top, #333, #666);
-  color: white;
+  background-color: #000;
+  color: #999;
   padding: 1rem 2rem;
-  border-radius: 10px;
-  font-weight: bold;
+  border: none;
+  border-radius: 0;
+  font-weight: normal;
   margin-bottom: 2rem;
-  font-size: 1.25rem;
+  font-size: 1rem;
+  position: relative;
+}
+
+.hall-screen::before,
+.hall-screen::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #999;
+  border-top: 1px dashed #666;
+  border-bottom: 1px dashed #666;
+}
+
+.hall-screen::before {
+  top: 0;
+}
+
+.hall-screen::after {
+  bottom: 0;
 }
 
 /* Схема мест */
@@ -184,36 +216,48 @@ body {
 
 /* Состояния мест */
 .seat--available {
-  background-color: #e3f2fd;
-  border-color: #2196F3;
-  color: #1976D2;
+  background-color: #fff;
+  border-color: #999;
+  color: #333;
 }
 
 .seat--available:hover {
-  background-color: #bbdefb;
+  background-color: #f0f0f0;
 }
 
 .seat--vip {
-  background-color: #fff9c4;
-  border-color: #fbc02d;
-  color: #f57f17;
+  background-color: #FFA500;
+  border-color: #FF8C00;
+  color: #fff;
 }
 
 .seat--vip:hover {
-  background-color: #fff59d;
+  background-color: #FF8C00;
 }
 
 .seat--selected {
-  background-color: #4CAF50 !important;
-  border-color: #388E3C !important;
-  color: white !important;
+  background-color: #66FFFF !important;
+  border-color: #00CED1 !important;
+  color: #000 !important;
 }
 
 .seat--taken {
-  background-color: #e0e0e0;
-  border-color: #9e9e9e;
-  color: #757575;
+  background-color: transparent;
+  border-color: #999;
+  color: transparent;
   cursor: not-allowed;
+  position: relative;
+}
+
+.seat--taken::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  width: 80%;
+  height: 2px;
+  background-color: #999;
 }
 
 .seat--disabled {
@@ -231,8 +275,8 @@ body {
   gap: 1.5rem;
   margin-top: 2rem;
   padding: 1rem;
-  background-color: #f9f9f9;
-  border-radius: 8px;
+  background-color: transparent;
+  border-radius: 0;
 }
 
 .legend {
@@ -249,18 +293,30 @@ body {
 }
 
 .legend__icon--available {
-  background-color: #e3f2fd;
-  border-color: #2196F3;
+  background-color: #fff;
+  border-color: #999;
 }
 
 .legend__icon--selected {
-  background-color: #4CAF50;
-  border-color: #388E3C;
+  background-color: #66FFFF;
+  border-color: #00CED1;
 }
 
 .legend__icon--taken {
-  background-color: #e0e0e0;
-  border-color: #9e9e9e;
+  background-color: transparent;
+  border-color: #999;
+  position: relative;
+}
+
+.legend__icon--taken::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  width: 80%;
+  height: 2px;
+  background-color: #999;
 }
 
 .legend__icon--disabled {
@@ -269,8 +325,8 @@ body {
 }
 
 .legend__icon--vip {
-  background-color: #fff9c4;
-  border-color: #fbc02d;
+  background-color: #FFA500;
+  border-color: #FF8C00;
 }
 
 .legend__text {
@@ -279,9 +335,10 @@ body {
 
 /* Выбор мест и бронирование */
 .booking {
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.95);
   padding: 1.5rem;
   border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .booking__title {
@@ -301,6 +358,24 @@ body {
 
 .booking__button {
   width: 100%;
+  background-color: #00CED1;
+  border-color: #00CED1;
+  color: #000;
+  font-weight: bold;
+  padding: 1rem;
+}
+
+.booking__button:hover {
+  background-color: #00BFFF;
+  border-color: #00BFFF;
+  color: #000;
+}
+
+.booking__button:disabled {
+  background-color: #ccc;
+  border-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
 }
 
 /* ===========================================
