@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cinema - Админ-панель</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <!-- Навигация -->
+  <nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">Cinema - Админ-панель</a>
+      <a href="index.html" class="btn btn-outline-light">На сайт</a>
+    </div>
+  </nav>
+
+  <!-- Форма авторизации -->
+  <div id="loginSection" class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title mb-4">Вход в админ-панель</h5>
+            <form id="loginForm">
+              <div class="mb-3">
+                <label class="form-label">Логин</label>
+                <input type="text" class="form-control" id="loginInput" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Пароль</label>
+                <input type="password" class="form-control" id="passwordInput" required>
+              </div>
+              <button type="submit" class="btn btn-primary w-100">Войти</button>
+            </form>
+            <div id="loginError" class="alert alert-danger mt-3" style="display: none;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Админ-панель -->
+  <div id="adminPanel" style="display: none;">
+    <div class="container-fluid mt-4">
+      <!-- Вкладки -->
+      <ul class="nav nav-tabs" id="adminTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="films-tab" data-bs-toggle="tab" data-bs-target="#films" type="button">
+            Фильмы
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="halls-tab" data-bs-toggle="tab" data-bs-target="#halls" type="button">
+            Залы
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="schedule-tab" data-bs-toggle="tab" data-bs-target="#schedule" type="button">
+            Расписание
+          </button>
+        </li>
+      </ul>
+
+      <!-- Контент вкладок -->
+      <div class="tab-content mt-4" id="adminTabContent">
+        <!-- Вкладка Фильмы -->
+        <div class="tab-pane fade show active" id="films" role="tabpanel">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5>Управление фильмами</h5>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFilmModal">
+                Добавить фильм
+              </button>
+            </div>
+            <div class="card-body">
+              <div id="filmsList" class="row"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Вкладка Залы -->
+        <div class="tab-pane fade" id="halls" role="tabpanel">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5>Управление залами</h5>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addHallModal">
+                Добавить зал
+              </button>
+            </div>
+            <div class="card-body">
+              <div id="hallsList"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Вкладка Расписание -->
+        <div class="tab-pane fade" id="schedule" role="tabpanel">
+          <div class="card">
+            <div class="card-header">
+              <h5>Расписание сеансов</h5>
+              <p class="text-muted mb-0">Перетащите фильм на временную шкалу зала для добавления сеанса. 
+                Перетащите сеанс за пределы шкалы для удаления.</p>
+            </div>
+            <div class="card-body">
+              <div id="scheduleTimeline"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно добавления фильма -->
+  <div class="modal fade" id="addFilmModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Добавить фильм</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addFilmForm">
+            <div class="mb-3">
+              <label class="form-label">Название фильма</label>
+              <input type="text" class="form-control" name="filmName" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Длительность (минуты)</label>
+              <input type="number" class="form-control" name="filmDuration" required min="1">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Страна</label>
+              <input type="text" class="form-control" name="filmOrigin" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">URL постера</label>
+              <input type="url" class="form-control" name="filmPoster" required>
+            </div>
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary">Добавить</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно добавления зала -->
+  <div class="modal fade" id="addHallModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Добавить зал</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addHallForm">
+            <div class="mb-3">
+              <label class="form-label">Название зала</label>
+              <input type="text" class="form-control" name="hallName" required>
+            </div>
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary">Добавить</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

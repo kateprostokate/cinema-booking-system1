@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cinema - Билет</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+</head>
+<body>
+  <!-- Навигация -->
+  <nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">← На главную</a>
+    </div>
+  </nav>
+
+  <!-- Контент -->
+  <div class="container mt-4">
+    <h1 class="mb-4 text-center">Ваш билет</h1>
+    
+    <div id="ticketsContainer" class="row justify-content-center">
+      <!-- Билеты будут отображены здесь -->
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const ticketsData = localStorage.getItem('tickets');
+      
+      if (!ticketsData) {
+        alert('Билеты не найдены');
+        window.location.href = 'index.html';
+        return;
+      }
+
+      const tickets = JSON.parse(ticketsData);
+      displayTickets(tickets);
+    });
+
+    function displayTickets(tickets) {
+      const container = document.getElementById('ticketsContainer');
+      let html = '';
+
+      tickets.forEach(ticket => {
+        const ticketInfo = `
+Фильм: ${ticket.ticket_filmname}
+Зал: ${ticket.ticket_hallname}
+Дата: ${ticket.ticket_date}
+Время: ${ticket.ticket_time}
+Ряд: ${ticket.ticket_row}, Место: ${ticket.ticket_place}
+Стоимость: ${ticket.ticket_price} руб.
+
+Билет действителен строго на свой сеанс
+Билет №${ticket.id}
+        `.trim();
+
+        html += `
+          <div class="col-md-6 mb-4">
+            <div class="card">
+              <div class="card-body text-center">
+                <h5 class="card-title">${ticket.ticket_filmname}</h5>
+                <div class="mb-3">
+                  <canvas id="qr-${ticket.id}"></canvas>
+                </div>
+                <div class="ticket-info text-start">
+                  <p><strong>Зал:</strong> ${ticket.ticket_hallname}</p>
+                  <p><strong>Дата:</strong> ${ticket.ticket_date}</p>
+                  <p><strong>Время:</strong> ${ticket.ticket_time}</p>
+                  <p><strong>Ряд:</strong> ${ticket.ticket_row}, <strong>Место:</strong> ${ticket.ticket_place}</p>
+                  <p><strong>Стоимость:</strong> ${ticket.ticket_price} руб.</p>
+                </div>
+                <p class="text-danger mt-3"><strong>Билет действителен строго на свой сеанс</strong></p>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+
+      // Генерируем QR-коды
+      tickets.forEach(ticket => {
+        const canvasId = `qr-${ticket.id}`;
+        const canvas = document.getElementById(canvasId);
+        if (canvas) {
+          const ticketInfo = `
+Фильм: ${ticket.ticket_filmname}
+Зал: ${ticket.ticket_hallname}
+Дата: ${ticket.ticket_date}
+Время: ${ticket.ticket_time}
+Ряд: ${ticket.ticket_row}, Место: ${ticket.ticket_place}
+Стоимость: ${ticket.ticket_price} руб.
+
+Билет действителен строго на свой сеанс
+Билет №${ticket.id}
+          `.trim();
+
+          QRCode.toCanvas(canvas, ticketInfo, {
+            width: 200,
+            margin: 2
+          }, function (error) {
+            if (error) console.error(error);
+          });
+        }
+      });
+
+      // Очищаем localStorage после отображения
+      localStorage.removeItem('tickets');
+    }
+  </script>
+</body>
+</html>
